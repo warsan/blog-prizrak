@@ -1,7 +1,7 @@
 {
-  "name": "blog-prizrak",
+  "name": "warsan-ghost",
   "version": "0.0.1",
-  "description": "",
+  "description": "Блог призрак",
   "scripts": {
     "start": "bash init.sh && node node_modules/ghost/index"
   },

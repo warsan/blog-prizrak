@@ -6,7 +6,8 @@ HOST="$(cut -d'-' -f3 <<<"$s")"
 
 if [ $HOST != '0rfu5' ] && [ ! -f data/ghost-local.db ]; then
 (
-  node -p "JSON.stringify({...require('./base-config.development.json'), url: \"https://$HOST.sse.codesandbox.io/\"}, null, 2)" > config.development.json
+  node -p "JSON.stringify({...require('./base-config.development.json'), 
+  url: \"https://$HOST.sse.codesandbox.io/\"}, null, 2)" > config.development.json
   mkdir /sandbox/logs
   mkdir /sandbox/data  
   cd node_modules/ghost
