@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="{{@site.lang}}">
+
+<head>
+
+  {{!-- Настройки документов --}}
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+  {{!-- Base Meta --}}
+  <title>{{meta_title}}</title>
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  {{!-- Styles'n'Scripts --}}
+  <link rel="stylesheet" type="text/css" href="{{asset "built/screen.css"}}" />
+
+  {{!-- Этот тег выводит SEO meta + структурированные данные и другие важные настройки --}}
+  {{ghost_head}}
+
+</head>
+
+<body class="{{body_class}}">
+
+  <div class="site-wrapper">
+
+    {{!-- Все основное содержание вставляется сюда, index.hbs, post.hbs, etc --}}
+    {{{body}}}
+
+    {{!-- Нижний колонтитул в самом низу экрана --}}
+    <footer class="site-footer outer">
+      <div class="site-footer-content inner">
+        <section class="copyright"><a href="{{@site.url}}">{{@site.title}}</a> &copy; {{date format="YYYY"}}</section>
+        <nav class="site-footer-nav">
+          <a href="{{@site.url}}">Latest Posts</a>
+          {{#if @site.facebook}}<a href="{{facebook_url @site.facebook}}" target="_blank"
+            rel="noopener">Facebook</a>{{/if}}
+          {{#if @site.twitter}}<a href="{{twitter_url @site.twitter}}" target="_blank" rel="noopener">Twitter</a>{{/if}}
+          <a href="https://ghost.org" target="_blank" rel="noopener">Ghost</a>
+        </nav>
+      </div>
+    </footer>
+
+  </div>
+
+  {{!-- Большая электронная почта подписывается на модальный контент --}}
+  {{#if @labs.members}}
+  <div class="subscribe-success-message">
+    <a class="subscribe-close" href="javascript:;"></a>
+    Вы успешно подписались на {{@site.title}}!
+  </div>
+
+  <div id="subscribe" class="subscribe-overlay">
+    <a class="subscribe-close" href="#"></a>
+    <div class="subscribe-overlay-content">
+      {{#if @site.logo}}
+      <img class="subscribe-overlay-logo" src="{{@site.logo}}" alt="{{@site.title}}" />
+      {{/if}}
+      <div class="subscribe-form">
+        <h1 class="subscribe-overlay-title">Подпишитесь на {{@site.title}}</h1>
+        <p class="subscribe-overlay-description">Будьте в курсе событий!
+          Получите все самые последние и лучшие сообщения, доставленные прямо в ваш почтовый ящик</p>
+        <form data-members-form="subscribe">
+          <div class="form-group">
+            <input class="subscribe-email" data-members-email placeholder="youremail@example.com"
+              autocomplete="false" />
+            <button class="button primary" type="submit">
+              <span class="button-content">Подписаться</span>
+              <span class="button-loader">{{> "icons/loader"}}</span>
+            </button>
+          </div>
+          <div class="message-success">
+            <strong>Отлично!</strong> Проверьте свой почтовый ящик и нажмите на ссылку, чтобы подтвердить подписку.
+          </div>
+          <div class="message-error">
+            Пожалуйста, введите действительный адрес электронной почты!
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  {{/if}}
+
+  {{!-- jQuery, требуется для fitvids --}}
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous">
+    </script>
+  {{!-- Fitvids (для адаптивных встраиваемых видео), бесконечная прокрутка, плавающий заголовок и поддержка карт галереи --}}
+  <script src="{{asset "built/casper.js"}}"></script>
+
+  {{!-- Скрипты для подписки участников --}}
+  <script>
+    // Разбор параметра URL
+    function getParameterByName(name, url) {
+      if (!url) url = window.location.href;
+      name = name.replace(/[\[\]]/g, "\\$&");
+      var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+      if (!results) return null;
+      if (!results[2]) return '';
+      return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+    // Дайте параметру имя переменной
+    var action = getParameterByName('action');
+
+    $(document).ready(function () {
+      if (action == 'subscribe') {
+        $('body').addClass("subscribe-success");
+      }
+
+      $('.subscribe-success-message .subscribe-close').click(function () {
+        $('.subscribe-success-message').addClass('close');
+      });
+
+      // Сброс формы при открытии subscrion overlay
+      $('.subscribe-button').click(function () {
+        $('.subscribe-overlay form').removeClass();
+        $('.subscribe-email').val('');
+      });
+    });
+  </script>
+
+  {{!-- Помощник #block будет извлекать данные из #content для других файлов шаблонов. 
+  В этом случае есть некоторый JavaScript, который мы хотим использовать только в post.hbs, 
+  но он должен быть включен сюда, после того как jQuery уже загрузился. --}}
+  {{{block "scripts"}}}
+
+  {{!-- Ghost выводит важные скрипты и данные с помощью этого тега - он всегда должен быть самым последним перед закрывающим тегом body --}}
+  {{ghost_foot}}
+
+</body>
+
+</html>

@@ -1,0 +1,33 @@
+{{!< default}}
+{{!-- Тег выше означает - вставьте все в этом файле в шаблон «тело» шаблона default.hbs --}}
+
+{{#tag}}
+<header class="site-archive-header">
+  {{> site-header}}
+  {{> header-background background=feature_image}}
+  {{!--Специальный заголовок - image.hbs частично для создания фонового изображения--}}
+  <div class="inner site-header-content">
+    <h1 class="site-title">{{name}}</h1>
+    <h2 class="site-description">
+      {{#if description}}
+      {{description}}
+      {{else}}
+      A collection of {{plural ../pagination.total empty='posts' singular='% post' plural='% posts'}}
+      {{/if}}
+    </h2>
+  </div>
+  </div>
+</header>
+{{/tag}}
+
+{{!-- Основная область содержания --}}
+<main id="site-main" class="site-main outer">
+  <div class="inner posts">
+    <div class="post-feed">
+      {{#foreach posts}}
+      {{!-- Тег ниже включает разметку для каждого поста - partials/post-card.hbs --}}
+      {{> "post-card"}}
+      {{/foreach}}
+    </div>
+  </div>
+</main>
