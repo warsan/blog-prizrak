@@ -12,6 +12,6 @@ if [ $HOST != '0rfu5' ] && [ ! -f data/ghost-local.db ]; then
   mkdir /sandbox/data  
   cd node_modules/ghost
   knex-migrator init
-  mv /sandbox/node_modules/ghost/content/data/ghost-dev.db /sandbox/data/ghost-local.db
+  mv /sandbox/node_modules/ghost/content/data/ghost-dev.db/sandbox/data/ghost-local.db
 )
 fi
